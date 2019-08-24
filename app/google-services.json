@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "408640757525",
+    "firebase_url": "https://ww2firebaseproject.firebaseio.com",
+    "project_id": "ww2firebaseproject",
+    "storage_bucket": "ww2firebaseproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408640757525:android:9288ddaf860b9821",
+        "android_client_info": {
+          "package_name": "com.example.leo.ww2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408640757525-pif8bevrd3qg71kh56s13a8b82hregle.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.leo.ww2",
+            "certificate_hash": "d02a3b204374a897980bb7d2b44f3f14b83f7b1f"
+          }
+        },
+        {
+          "client_id": "408640757525-60uhvqpaj03vqaab506t5gtith3m0d47.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0T-IktB3GmZYSZ3KGjv8ICRdrSMFzI4o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408640757525-60uhvqpaj03vqaab506t5gtith3m0d47.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

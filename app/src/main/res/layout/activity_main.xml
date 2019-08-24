@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    tools:context=".MainActivity">
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="match_parent"
+            android:layout_height="202dp"
+            android:layout_marginTop="90dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/usc" />
+
+        <Button
+            android:id="@+id/bt1"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="70dp"
+            android:elevation="0dp"
+            android:onClick="signin"
+            android:text="登入"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView1" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="70dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/bt2"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="432dp"
+            android:onClick="userpolicy"
+            android:text="使用條款"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/bt3"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="432dp"
+            android:onClick="signup"
+            android:text="加入會員"
+            app:layout_constraintStart_toEndOf="@+id/bt2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/bt4"
+            style="@android:style/Widget.Material.Light.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="432dp"
+            android:onClick="conus"
+            android:text="聯絡我們"
+            app:layout_constraintStart_toEndOf="@+id/bt3"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>

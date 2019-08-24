@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignIn"
+    android:background="@drawable/bg1">
+
+
+    <TextView
+        android:id="@+id/txv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="268dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:maxLength="10"
+        android:text="電話:"
+        android:textColor="@android:color/background_light"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="348dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:text="密碼:"
+        android:textColor="@android:color/background_light"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt1"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="268dp"
+        android:ems="10"
+        android:inputType="phone"
+        android:textColor="@color/cardview_light_background"
+        android:maxLength="10"
+        android:phoneNumber="true"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edt2"
+        android:textColor="@color/cardview_light_background"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="348dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:password="true"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bt1"
+        style="@android:style/Widget.Material.Light.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="316dp"
+        android:text="登入"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.rey.material.widget.CheckBox
+        android:id="@+id/ckbRemember"
+        style="@style/Material.Drawable.CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="420dp"
+        android:text="記住帳密"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="24sp"
+        app:cbd_strokeColor="@android:color/darker_gray"
+        app:cbd_tickColor="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

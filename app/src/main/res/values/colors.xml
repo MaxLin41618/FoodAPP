@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3f51b5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="overlayBackground">#7f333639</color>
+    <color name="overlayActionBar">#0e0d0e</color>
+
+    <color name="commentbackground">#DDDDDD</color>
+    <color name="ratingbar">#FFCC22</color>
+</resources>

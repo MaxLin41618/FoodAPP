@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    tools:context=".UserPolicy"
+    >
+
+
+    <TextView
+        android:id="@+id/txt1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:text="1.使用者可於任何地點透過網路訂購實踐大學學生餐廳之商品"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp" />
+    <TextView
+        android:layout_margin="8dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:id="@+id/txt2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@android:color/background_light"
+        android:text="2.付款方式為取餐時付款"
+        />
+
+    <TextView
+        android:id="@+id/txt3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:text="3.當累計達2次訂購未取餐，將終止您的使用權限"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp" />
+    <TextView
+        android:layout_margin="8dp"
+        android:background="@color/common_google_signin_btn_text_dark_disabled"
+        android:id="@+id/txt4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@android:color/background_light"
+        android:text="4.忘記密碼時請Email聯絡"
+        />
+
+</LinearLayout>
