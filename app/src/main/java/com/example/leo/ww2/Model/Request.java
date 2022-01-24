@@ -1,6 +1,7 @@
 package com.example.leo.ww2.Model;
 
 import java.util.List;
+
 //送出訂單
 public class Request {
     private String phone;
@@ -10,8 +11,6 @@ public class Request {
     private String total;
     private String status;
     private List<Order> foods;
-
-
 
     public Request() {
     }

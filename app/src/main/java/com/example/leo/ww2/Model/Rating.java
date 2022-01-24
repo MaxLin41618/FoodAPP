@@ -10,7 +10,7 @@ public class Rating {
     public Rating() {
     }
 
-    public Rating(String userName,String userPhone, String foodId, String rateValue, String comment) {
+    public Rating(String userName, String userPhone, String foodId, String rateValue, String comment) {
         this.userName = userName;
         this.userPhone = userPhone;
         this.foodId = foodId;

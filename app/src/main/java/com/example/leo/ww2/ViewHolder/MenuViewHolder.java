@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.example.leo.ww2.Interface.ItemClickListener;
 import com.example.leo.ww2.R;
 
-public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     public TextView txtMenuName;
     public ImageView imageView;
@@ -18,8 +18,8 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public MenuViewHolder(View itemView) {
         super(itemView);
 
-        txtMenuName = (TextView)itemView.findViewById(R.id.menu_name);
-        imageView = (ImageView)itemView.findViewById(R.id.menu_image);
+        txtMenuName = (TextView) itemView.findViewById(R.id.menu_name);
+        imageView = (ImageView) itemView.findViewById(R.id.menu_image);
 
         itemView.setOnClickListener(this);
     }
@@ -30,6 +30,6 @@ public class MenuViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        itemClickListener.onClick(view,getAdapterPosition(),false);
+        itemClickListener.onClick(view, getAdapterPosition(), false);
     }
 }

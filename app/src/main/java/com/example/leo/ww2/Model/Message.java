@@ -1,23 +1,23 @@
 package com.example.leo.ww2.Model;
 
-public class Sender {
-    private String to;
+public class Message {
+    private String token;
     private Notification notification;
 
-    public Sender() {
+    public Message() {
     }
 
-    public Sender(String to, Notification notification) {
-        this.to = to;
+    public Message(String token, Notification notification) {
+        this.token = token;
         this.notification = notification;
     }
 
-    public String getTo() {
-        return to;
+    public String getToken() {
+        return token;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Notification getNotification() {

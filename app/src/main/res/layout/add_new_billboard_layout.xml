@@ -6,10 +6,10 @@
     app:cardElevation="4dp">
 
     <LinearLayout
-        android:layout_margin="20dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/edtTitle"
@@ -24,19 +24,20 @@
             android:textSize="34dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/edtComment"
-            android:hint="內容"
-            android:textColorHint="@color/colorPrimary"
-            android:textColor="@color/colorPrimary"
-            android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24dp"
             android:ems="10"
+            android:hint="內容"
             android:inputType="textMultiLine"
+            android:text=""
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/colorPrimary"
+            android:textSize="24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/image"

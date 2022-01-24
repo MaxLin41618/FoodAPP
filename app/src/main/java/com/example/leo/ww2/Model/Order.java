@@ -1,13 +1,11 @@
 package com.example.leo.ww2.Model;
 
-//購物車
+//購物車item
 public class Order {
     private String ProductId;
     private String ProductName;
     private String Quantity;
     private String Price;
-
-
 
     public Order() {
     }
@@ -19,10 +17,6 @@ public class Order {
         Price = price;
 
     }
-
-
-
-
 
     public String getProductId() {
         return ProductId;
@@ -55,6 +49,4 @@ public class Order {
     public void setPrice(String price) {
         Price = price;
     }
-
-
 }

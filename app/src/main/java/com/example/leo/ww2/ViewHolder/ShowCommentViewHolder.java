@@ -9,14 +9,14 @@ import com.example.leo.ww2.R;
 
 public class ShowCommentViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView txtUserName,txtUserPhone,txtComment;
+    public TextView txtUserName, txtUserPhone, txtComment;
     public RatingBar ratingBar;
 
     public ShowCommentViewHolder(View itemView) {
         super(itemView);
 
-        txtComment = (TextView)itemView.findViewById(R.id.txtComment);
-        txtUserName = (TextView)itemView.findViewById(R.id.txtUserName);
-        ratingBar = (RatingBar)itemView.findViewById(R.id.ratingBar);
+        txtComment = (TextView) itemView.findViewById(R.id.txtComment);
+        txtUserName = (TextView) itemView.findViewById(R.id.txtUserName);
+        ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
     }
 }

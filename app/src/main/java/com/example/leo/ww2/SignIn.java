@@ -22,26 +22,24 @@ import io.paperdb.Paper;
 
 public class SignIn extends AppCompatActivity {
 
-    EditText edtPhone,edtPassword;
+    EditText edtPhone, edtPassword;
     Button btSignIn;
     CheckBox ckbRemember;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        edtPhone=(EditText)findViewById(R.id.edt1);
-        edtPassword=(EditText)findViewById(R.id.edt2);
-        btSignIn = (Button) findViewById(R.id.bt1);
-        ckbRemember = (CheckBox)findViewById(R.id.ckbRemember);
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user= database.getReference("User");
+        DatabaseReference refUser = database.getReference("User");
+
+        initView();
 
         btSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //check connection
                 if (Common.isConnectedToInternet(getBaseContext())) {
 
                     //Save user & password
@@ -54,7 +52,7 @@ public class SignIn extends AppCompatActivity {
                     mDialog.setMessage("Please waiting...");
                     mDialog.show();
 
-                    table_user.addValueEventListener(new ValueEventListener() {
+                    refUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -91,10 +89,17 @@ public class SignIn extends AppCompatActivity {
                         }
                     });
 
-                }else {
-                    Toast.makeText(SignIn.this,"請確認網路連線",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SignIn.this, "請確認網路連線", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void initView() {
+        edtPhone = (EditText) findViewById(R.id.edt1);
+        edtPassword = (EditText) findViewById(R.id.edt2);
+        btSignIn = (Button) findViewById(R.id.bt1);
+        ckbRemember = (CheckBox) findViewById(R.id.ckbRemember);
     }
 }

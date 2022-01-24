@@ -1,4 +1,7 @@
 <resources>
+    <string name="channel_name">FoodAPP</string>
+    <string name="channel_description">myFoodApp</string>
+
     <string name="cart">購物車</string>
     <string name="delete">刪除</string>
 

@@ -1,7 +1,7 @@
 package com.example.leo.ww2.Model;
 
 public class Food {
-    private String Name,Image,Description,Price,MenuId;
+    private String Name, Image, Description, Price, MenuId;
 
     public Food() {
     }

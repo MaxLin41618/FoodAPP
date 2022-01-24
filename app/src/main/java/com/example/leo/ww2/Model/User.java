@@ -8,7 +8,7 @@ public class User {
     private String IsStaff;
     private String Blacklist;
 
-    public User(){
+    public User() {
     }
 
     public User(String name, String password, String email) {

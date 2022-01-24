@@ -7,12 +7,10 @@
     android:background="@drawable/bg1"
     tools:context=".MainActivity">
 
-
-
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/imageView1"
@@ -25,20 +23,19 @@
             app:srcCompat="@drawable/usc" />
 
         <Button
-            android:id="@+id/bt1"
+            android:id="@+id/btn_logIn"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="70dp"
+            android:layout_marginEnd="40dp"
             android:elevation="0dp"
-            android:onClick="signin"
+            android:onClick="signIn"
             android:text="登入"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView1" />
-
     </LinearLayout>
 
 
@@ -52,43 +49,40 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/bt2"
+            android:id="@+id/btn_user_policy"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginTop="432dp"
-            android:onClick="userpolicy"
+            android:onClick="userPolicy"
             android:text="使用條款"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/bt3"
+            android:id="@+id/btn_signUp"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="432dp"
-            android:onClick="signup"
+            android:onClick="signUp"
             android:text="加入會員"
             app:layout_constraintStart_toEndOf="@+id/bt2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/bt4"
+            android:id="@+id/btn_conUs"
             style="@android:style/Widget.Material.Light.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="432dp"
-            android:onClick="conus"
+            android:onClick="conUs"
             android:text="聯絡我們"
             app:layout_constraintStart_toEndOf="@+id/bt3"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>
-
-
-
 
 </android.support.constraint.ConstraintLayout>

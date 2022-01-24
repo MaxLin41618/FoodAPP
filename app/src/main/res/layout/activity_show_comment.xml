@@ -5,8 +5,8 @@
     android:id="@+id/swipe_Layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowComment"
-    android:background="@drawable/bg1">
+    android:background="@drawable/bg1"
+    tools:context=".ShowComment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerComment"

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,11 +9,10 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        >
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing"
@@ -39,9 +37,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:title="Food Name"
                 app:layout_collapseMode="parallax"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-
-                />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -58,7 +54,8 @@
         app:layout_anchorGravity="bottom|left|end"
         app:pressedTranslationZ="12dp"
         app:srcCompat="@drawable/ic_star_black_24dp"
-        app:useCompatPadding="true" />
+        app:useCompatPadding="true" >
+    </android.support.design.widget.FloatingActionButton>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnCart"
@@ -71,20 +68,20 @@
         app:layout_anchorGravity="bottom|right|end"
         app:pressedTranslationZ="12dp"
         app:srcCompat="@drawable/ic_add_black_24dp"
-        app:useCompatPadding="true" />
+        app:useCompatPadding="true" >
+    </android.support.design.widget.FloatingActionButton>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/nestedScrollView"
         android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -92,92 +89,89 @@
                 app:cardElevation="5dp"
                 app:cardUseCompatPadding="true">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/food_name"
-                    android:layout_marginTop="8dp"
-                    android:padding="12dp"
-                    android:text="Food Name"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    />
-
                 <LinearLayout
-                    android:id="@+id/layout_price"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/ic_attach_money_black_24dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_weight="9"
-                        android:layout_width="0dp"
+                        android:id="@+id/food_name"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/food_price"
-                        android:text="80"
+                        android:layout_marginTop="8dp"
+                        android:padding="12dp"
+                        android:text="Food Name"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="18sp"
-                        />
+                        android:textSize="20sp" />
 
-                        />
+                    <LinearLayout
+                        android:id="@+id/layout_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/ic_attach_money_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/food_price"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="9"
+                            android:text="80"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                        android:id="@+id/number_button"
+                        android:layout_width="100dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="18dp"
+                        app:backGroundColor="@color/colorAccent"
+                        app:finalNumber="99"
+                        app:initialNumber="1"
+                        app:textSize="8sp" />
+
                 </LinearLayout>
 
-                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-                    android:id="@+id/number_button"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="18dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
-                    app:backGroundColor="@color/colorAccent"
-                    app:finalNumber="99"
-                    app:initialNumber="1"
-                    app:textSize="8sp" />
-
-            </LinearLayout>
-
             </android.support.v7.widget.CardView>
-            
+
             <android.support.v7.widget.CardView
-                app:cardElevation="5dp"
-                app:cardUseCompatPadding="true"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="true">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <RatingBar
                         android:id="@+id/ratingBar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:isIndicator="true"
                         android:max="5"
                         android:rating="0"
-                        android:theme="@style/RatingBar"
-                        android:isIndicator="true"/>
+                        android:theme="@style/RatingBar" />
 
                     <TextView
                         android:id="@+id/food_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:lineSpacingMultiplier="1.5"
                         android:padding="12dp"
                         android:text="Description"
                         android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -190,7 +184,7 @@
                 android:layout_height="70dp"
                 android:text="顯示評論"
                 android:textSize="24sp" />
-            
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

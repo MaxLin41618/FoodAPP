@@ -10,19 +10,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.leo.ww2.Common.Common;
-import com.example.leo.ww2.Database.Database;
 import com.example.leo.ww2.Interface.ItemClickListener;
 import com.example.leo.ww2.Model.Food;
-import com.example.leo.ww2.Model.Order;
-import com.example.leo.ww2.Model.Store;
 import com.example.leo.ww2.ViewHolder.FoodViewHolder;
-import com.example.leo.ww2.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -38,19 +35,22 @@ import java.util.List;
 
 public class FoodList extends AppCompatActivity {
 
+    private static final String TAG = "FoodList";
+
     FirebaseDatabase database;
-    DatabaseReference foodList;
+    DatabaseReference refFood;
+    ValueEventListener eventListener;
 
     RecyclerView recyclerView;
-    FirebaseRecyclerAdapter<Food,FoodViewHolder> adapter;
+    FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter;
 
     FloatingActionButton btnCart;
-
-    String storeId="";
+    //getExtra
+    String storeId = "";
 
     //For Search Function
     MaterialSearchBar searchBar;
-    FirebaseRecyclerAdapter<Food,FoodViewHolder> searchAdapter;
+    FirebaseRecyclerAdapter<Food, FoodViewHolder> searchAdapter;
     List<String> suggestList = new ArrayList<>();
 
     @Override
@@ -59,41 +59,25 @@ public class FoodList extends AppCompatActivity {
         setContentView(R.layout.activity_food_list);
 
         database = FirebaseDatabase.getInstance();
-        foodList = database.getReference("Food");
+        refFood = database.getReference("Food");
 
-        recyclerView = (RecyclerView)findViewById(R.id.recycler_food);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //ActionBar Logo
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic_restaurant_menu_white_24dp);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-
-        btnCart = (FloatingActionButton)findViewById(R.id.btnCart);
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(FoodList.this, Cart.class));
-            }
-        });
+        initView();
 
         //Get Home傳來的storeId
-        if(getIntent()!=null)
+        if (getIntent() != null)
             storeId = getIntent().getStringExtra("StoreId");
-        if(!storeId.isEmpty() && storeId != null){
+        if (!storeId.isEmpty() && storeId != null) {
             if (Common.isConnectedToInternet(this))
                 loadListFood(storeId);
             else
-                Toast.makeText(FoodList.this,"請確認網路連線",Toast.LENGTH_SHORT).show();
+                Toast.makeText(FoodList.this, "請確認網路連線", Toast.LENGTH_SHORT).show();
         }
 
-        searchBar = (MaterialSearchBar)findViewById(R.id.searchBar);
-        //load suggestion from FireBase
+        //load suggestion from FireBase, put food_name to suggestList, maxCount 10
         loadSuggest();
+        searchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
         searchBar.setLastSuggestions(suggestList);
-        searchBar.setCardViewElevation(10);
+        //suggestList 建議欄
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -102,13 +86,13 @@ public class FoodList extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //When user type text, we will change suggest list
-                List<String> suggest = new ArrayList<>();
-                for (String search : suggestList){
+                //When user type text and it contains in suggestList, will change the suggest list
+                List<String> suggests = new ArrayList<>();
+                for (String search : suggestList) {
                     if (search.toLowerCase().contains(searchBar.getText().toLowerCase()))
-                        suggest.add(search);
+                        suggests.add(search);
                 }
-                searchBar.setLastSuggestions(suggest);
+                searchBar.setLastSuggestions(suggests); //change the suggest list
             }
 
             @Override
@@ -116,6 +100,7 @@ public class FoodList extends AppCompatActivity {
 
             }
         });
+        //When Search Confirmed
         searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
             public void onSearchStateChanged(boolean enabled) {
@@ -127,8 +112,8 @@ public class FoodList extends AppCompatActivity {
 
             @Override
             public void onSearchConfirmed(CharSequence text) {
-                //When search finish
-                //Show result of search adapter
+                Log.d(TAG, "onSearchConfirmed: ");
+                //When search finish. Show result of search adapter
                 startSearch(text.toString());
             }
 
@@ -138,11 +123,33 @@ public class FoodList extends AppCompatActivity {
             }
         });
     }
+
+    //initView
+    private void initView() {
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_food);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //ActionBar Logo
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.drawable.ic_restaurant_menu_white_24dp);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
+        btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FoodList.this, Cart.class));
+            }
+        });
+    }
+
     //Search Confirmed
     private void startSearch(CharSequence text) {
         //抓這個名字的
         FirebaseRecyclerOptions<Food> options = new FirebaseRecyclerOptions.Builder<Food>()
-                .setQuery(foodList.orderByChild("name").equalTo(text.toString()),Food.class)
+                .setQuery(refFood.orderByChild("name").equalTo(text.toString()), Food.class)
                 .build();
 
         searchAdapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
@@ -157,8 +164,8 @@ public class FoodList extends AppCompatActivity {
                 holder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Intent foodDetail = new Intent(FoodList.this,FoodDetail.class);
-                        foodDetail.putExtra("foodId",searchAdapter.getRef(position).getKey());
+                        Intent foodDetail = new Intent(FoodList.this, FoodDetail.class);
+                        foodDetail.putExtra("foodId", searchAdapter.getRef(position).getKey());
                         startActivity(foodDetail);
                     }
                 });
@@ -168,25 +175,28 @@ public class FoodList extends AppCompatActivity {
             @Override
             public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-                View view = inflater.inflate(R.layout.food_item,viewGroup,false);
+                View view = inflater.inflate(R.layout.food_item, viewGroup, false);
                 return new FoodViewHolder(view);
             }
         };
         searchAdapter.startListening();
-        recyclerView.setAdapter(searchAdapter); //Set recyclerView adapter to this SearchAdapter
+        recyclerView.setAdapter(searchAdapter);
     }
 
-    //load suggestion from FireBase
+    //load suggestion from FireBase, put food_name to suggestList, maxCount 10
     private void loadSuggest() {
-        foodList.orderByChild("menuId").equalTo(storeId)
+        eventListener = refFood.orderByChild("menuId").equalTo(storeId)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()){
-                            Food item = postSnapshot.getValue(Food.class);
-                            suggestList.add(item.getName());
+                        int counter = 1;
+                        // put food_name to suggestList
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            Food food = ds.getValue(Food.class);
+                            suggestList.add(food.getName());
+                            Log.d(TAG, "onDataChange:loadSuggest count " + counter);
+                            counter++;
                         }
-
                     }
 
                     @Override
@@ -196,44 +206,43 @@ public class FoodList extends AppCompatActivity {
                 });
     }
 
-
-    //loadFoodList
+    //loadFood from db to adapter
     private void loadListFood(final String storeId) {
 
         FirebaseRecyclerOptions<Food> options = new FirebaseRecyclerOptions.Builder<Food>()
-                .setQuery(foodList.orderByChild("menuId").equalTo(storeId),Food.class)
+                .setQuery(refFood.orderByChild("menuId").equalTo(storeId), Food.class)
                 .build();
 
         adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
-                @Override
-                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Food model) {
-                    holder.food_name.setText(model.getName());
-                    Picasso.with(getBaseContext())
-                            .load(model.getImage())
-                            .into(holder.food_image);
+            @Override
+            protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Food model) {
+                holder.food_name.setText(model.getName());
+                Picasso.with(getBaseContext())
+                        .load(model.getImage())
+                        .into(holder.food_image);
 
-                    final Food local = model;
-                    holder.setItemClickListener(new ItemClickListener() {
-                        @Override
-                        public void onClick(View view, int position, boolean isLongClick) {
-                            Intent foodDetail = new Intent(FoodList.this,FoodDetail.class);
-                            foodDetail.putExtra("foodId",adapter.getRef(position).getKey());
-                            startActivity(foodDetail);
-                        }
-                    });
-                }
-                @NonNull
-                @Override
-                public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                    View view = inflater.inflate(R.layout.food_item,parent,false);
-                    return new FoodViewHolder(view);
-                }
-            };
+                final Food local = model;
+                holder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        Intent foodDetail = new Intent(FoodList.this, FoodDetail.class);
+                        foodDetail.putExtra("foodId", adapter.getRef(position).getKey());
+                        startActivity(foodDetail);
+                    }
+                });
+            }
+
+            @NonNull
+            @Override
+            public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(R.layout.food_item, parent, false);
+                return new FoodViewHolder(view);
+            }
+        };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
     }
-
 
     @Override
     protected void onStop() {
@@ -243,9 +252,17 @@ public class FoodList extends AppCompatActivity {
 
     // 在返回這頁時發生空白，用這個補回資料
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         loadListFood(storeId);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventListener != null) {
+            refFood.removeEventListener(eventListener);
+        }
     }
 }

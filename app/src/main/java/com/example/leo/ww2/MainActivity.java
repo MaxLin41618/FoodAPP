@@ -22,51 +22,58 @@ import io.paperdb.Paper;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button bt1,bt2,bt3,bt4;
+    Button btn_logIn, btn_user_policy, btn_signUp, btn_conUs;
+    //Firebase
+    FirebaseDatabase database;
+    DatabaseReference refUser;
+    ValueEventListener eventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bt1 = (Button) findViewById(R.id.bt1);
-        bt2 = (Button) findViewById(R.id.bt2);
-        bt3 = (Button) findViewById(R.id.bt3);
-        bt4 = (Button) findViewById(R.id.bt4);
+        database = FirebaseDatabase.getInstance();
+        refUser = database.getReference("User");
+
+        initView();
 
         //Init Paper
         Paper.init(this);
-        //Check remember
+        //Check remember 自動登入
         String user_phone = Paper.book().read(Common.USER_KEY);
         String pwd = Paper.book().read(Common.PWD_KEY);
-        if(user_phone != null && pwd != null){
-            if(!user_phone.isEmpty() && !pwd.isEmpty()){
-                login(user_phone,pwd);
+        if (user_phone != null && pwd != null) {
+            if (!user_phone.isEmpty() && !pwd.isEmpty()) {
+                login(user_phone, pwd); //登入
             }
         }
     }
 
+    private void initView() {
+        btn_logIn = (Button) findViewById(R.id.btn_logIn);
+        btn_user_policy = (Button) findViewById(R.id.btn_user_policy);
+        btn_signUp = (Button) findViewById(R.id.btn_signUp);
+        btn_conUs = (Button) findViewById(R.id.btn_conUs);
+    }
+
     private void login(final String user_phone, final String pwd) {
-        //Login in code
 
         final ProgressDialog mDialog = new ProgressDialog(MainActivity.this);
         mDialog.setMessage("Please waiting...");
         mDialog.show();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = database.getReference("User");
-
-        table_user.addValueEventListener(new ValueEventListener() {
+        eventListener = refUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.child(user_phone).exists()){
+                if (dataSnapshot.child(user_phone).exists()) {
 
                     User user = dataSnapshot.child(user_phone).getValue(User.class);
-                    user.setPhone(user_phone);//取得user電話
+                    user.setPhone(user_phone);//自動登入時取得user電話
 
                     if (user.getPassword().equals(pwd)) {
-                        Intent homeIntent = new Intent(MainActivity.this,Home.class);
+                        Intent homeIntent = new Intent(MainActivity.this, Home.class);
                         Common.currentUser = user;
                         startActivity(homeIntent);
                         finish();
@@ -74,8 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "密碼錯誤!!", Toast.LENGTH_SHORT).show();
                         mDialog.dismiss();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(MainActivity.this, "無此帳號!!", Toast.LENGTH_SHORT).show();
                     mDialog.dismiss();
                 }
@@ -87,17 +93,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void conus(View v){
+
+    public void conUs(View v) {
         startActivity(new Intent(this, ContUs.class));
     }
-    public void signup(View v){
+
+    public void signUp(View v) {
         startActivity(new Intent(this, SignUp.class));
     }
-    public void signin(View v){
+
+    public void signIn(View v) {
         startActivity(new Intent(this, SignIn.class));
     }
-    public void userpolicy(View v){
+
+    public void userPolicy(View v) {
         startActivity(new Intent(this, UserPolicy.class));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (eventListener != null) {
+            refUser.removeEventListener(eventListener);
+        }
+    }
 }

@@ -27,27 +27,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener {
+class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
-    public TextView txt_cart_name,txt_price;
-    public ImageView img_cart_count,cart_image;
+    public TextView txt_cart_name, txt_price;
+    public ImageView img_cart_count, cart_image;
     public Button cart_item_btnDelete;
 
     private ItemClickListener itemClickListener;
 
-    public void setTxt_cart_name(TextView txt_cart_name){
+    public void setTxt_cart_name(TextView txt_cart_name) {
         this.txt_cart_name = txt_cart_name;
     }
 
 
-
     public CartViewHolder(View itemView) {
         super(itemView);
-        txt_cart_name = (TextView)itemView.findViewById(R.id.cart_item_name);
-        txt_price = (TextView)itemView.findViewById(R.id.cart_item_Price);
-        img_cart_count = (ImageView)itemView.findViewById(R.id.cart_item_count);
-      //  cart_image = (ImageView)itemView.findViewById(R.id.cart_image);
-     //   cart_item_btnDelete = (Button)itemView.findViewById(R.id.cart_item_btnDelete);
+        txt_cart_name = (TextView) itemView.findViewById(R.id.cart_item_name);
+        txt_price = (TextView) itemView.findViewById(R.id.cart_item_Price);
+        img_cart_count = (ImageView) itemView.findViewById(R.id.cart_item_count);
+        //  cart_image = (ImageView)itemView.findViewById(R.id.cart_image);
+        //   cart_item_btnDelete = (Button)itemView.findViewById(R.id.cart_item_btnDelete);
 
         itemView.setOnCreateContextMenuListener(this);
     }
@@ -60,13 +59,13 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle("選擇功能");
-        menu.add(0,0,getAdapterPosition(), R.string.delete);
+        menu.add(0, 0, getAdapterPosition(), R.string.delete);
     }
 }
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
-   /* Cart cart;*/
+    /* Cart cart;*/
 
     private List<Order> listData = new ArrayList<>();
     private Context context;
@@ -95,7 +94,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
             }
         });*/
 
-       //商品圖片
+        //商品圖片
         /*Picasso.with(cart.getBaseContext())
                 .load(listData.get(position).getImage())
                 .resize(70,70)
@@ -112,14 +111,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
 
         //單個Order總價錢
         Locale locale = new Locale("en", "US");
-        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 
-        int price = ( Integer.parseInt(listData.get(position).getPrice()) ) * ( Integer.parseInt(listData.get(position).getQuantity()) );
-        holder.txt_price.setText(format.format(price));
-
-        //品名
+        int price = (Integer.parseInt(listData.get(position).getPrice())) * (Integer.parseInt(listData.get(position).getQuantity()));
+        holder.txt_price.setText(numberFormat.format(price));
         holder.txt_cart_name.setText(listData.get(position).getProductName());
-
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.leo.ww2.Remote;
 
 import com.example.leo.ww2.Model.MyResponse;
-import com.example.leo.ww2.Model.Sender;
+import com.example.leo.ww2.Model.Message;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,5 +16,5 @@ public interface APIService {
             }
     )
     @POST("fcm/send")
-    Call<MyResponse> sendNotification(@Body Sender body);
+    Call<MyResponse> sendNotification(@Body Message body); //POST 帶有內容的
 }

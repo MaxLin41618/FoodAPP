@@ -4,7 +4,7 @@ public class Store {
     private String Name;
     private String Image;
 
-    public Store(){
+    public Store() {
 
     }
 

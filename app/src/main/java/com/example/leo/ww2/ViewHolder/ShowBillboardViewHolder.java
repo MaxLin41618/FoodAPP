@@ -8,19 +8,19 @@ import android.widget.TextView;
 
 import com.example.leo.ww2.R;
 
-public class ShowBillboardViewHolder extends RecyclerView.ViewHolder{
+public class ShowBillboardViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView billboard_date,billboard_name,billboard_title,billboard_comment;
+    public TextView billboard_date, billboard_name, billboard_title, billboard_comment;
     public ImageView billboard_image;
 
 
     public ShowBillboardViewHolder(View itemView) {
         super(itemView);
 
-        billboard_image = (ImageView)itemView.findViewById(R.id.billboard_image);
-        billboard_date = (TextView)itemView.findViewById(R.id.billboard_date);
-        billboard_name = (TextView)itemView.findViewById(R.id.billboard_name);
-        billboard_title = (TextView)itemView.findViewById(R.id.billboard_title);
-        billboard_comment = (TextView)itemView.findViewById(R.id.billboard_comment);
+        billboard_image = (ImageView) itemView.findViewById(R.id.billboard_image);
+        billboard_date = (TextView) itemView.findViewById(R.id.billboard_date);
+        billboard_name = (TextView) itemView.findViewById(R.id.billboard_name);
+        billboard_title = (TextView) itemView.findViewById(R.id.billboard_title);
+        billboard_comment = (TextView) itemView.findViewById(R.id.billboard_comment);
     }
 }

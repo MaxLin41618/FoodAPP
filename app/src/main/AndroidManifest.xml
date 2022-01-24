@@ -47,8 +47,8 @@
             android:label="購物車" />
         <activity
             android:name=".OrderStatus"
-            android:label="我的訂單" />
-
+            android:label="我的訂單"
+            android:parentActivityName=".Home"/>
         <activity
             android:name=".OrderDetail"
             android:label="訂單內容" />
@@ -60,9 +60,7 @@
             android:label="使用條款"></activity>
         <activity
             android:name=".ShowBillboard"
-            android:label="校園布告欄"
-            >
-        </activity>
+            android:label="校園布告欄"></activity>
 
         <service
             android:name=".Service.MyFireBaseMessaging"

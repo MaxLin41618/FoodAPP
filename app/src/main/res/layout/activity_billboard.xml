@@ -5,15 +5,13 @@
     android:id="@+id/swipe_Layout_billboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ShowBillboard"
-    android:background="@drawable/bg1">
-
+    android:background="@drawable/bg1"
+    tools:context=".ShowBillboard">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerBillboard"
+        tools:listitem="@layout/show_billboard_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"/>
 
 </android.support.v4.widget.SwipeRefreshLayout>

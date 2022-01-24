@@ -18,81 +18,86 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText edtPhone,edtName,edtPassword,edtEmail;
+    EditText edtPhone, edtName, edtPassword, edtEmail;
     Button btnRegister;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference table_user = database.getReference("User");
+    DatabaseReference refUser = database.getReference("User");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        initView();
+        register();
+    }
+
+    //register
+    private void register() {
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+
+                if (Common.isConnectedToInternet(getBaseContext())) {
+
+                    final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
+                    mDialog.setMessage("Please waiting...");
+                    mDialog.show();
+
+                    if (edtPhone.length() == 10 && edtName.length() >= 2 && edtPassword.length() > 0 && edtEmail.length() > 0) {
+
+                        refUser.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                                    mDialog.dismiss();
+                                    Toast.makeText(SignUp.this, "已經註冊!!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    mDialog.dismiss();
+                                    //建構方法User
+                                    User user = new User(
+                                            edtName.getText().toString(),
+                                            edtPassword.getText().toString(),
+                                            edtEmail.getText().toString()
+                                    );
+                                    //set phoneNumber = Key
+                                    refUser.child(edtPhone.getText().toString()).setValue(user);
+                                    Toast.makeText(SignUp.this, "註冊成功!!", Toast.LENGTH_SHORT).show();
+                                    /* finish();*/
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    } else if (edtPhone.length() < 10) {
+                        Toast.makeText(SignUp.this, "電話輸入錯誤", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    } else if (edtName.getText().toString().isEmpty() || edtName.length() < 2) {
+                        Toast.makeText(SignUp.this, "請輸入姓名(2字以上)", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    } else if (edtPassword.getText().toString().isEmpty()) {
+                        Toast.makeText(SignUp.this, "請輸入密碼", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    } else if (edtEmail.getText().toString().isEmpty()) {
+                        Toast.makeText(SignUp.this, "請輸入Email", Toast.LENGTH_SHORT).show();
+                        mDialog.dismiss();
+                    }
+                } else {
+                    Toast.makeText(SignUp.this, "請確認網路連線", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void initView() {
         btnRegister = (Button) findViewById(R.id.btnRegister);
         edtPhone = (EditText) findViewById(R.id.editTextPhone);
         edtName = (EditText) findViewById(R.id.editTextName);
         edtPassword = (EditText) findViewById(R.id.editTextPassword);
         edtEmail = (EditText) findViewById(R.id.editTextEmail);
-
-
-
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-
-                public void onClick(View v) {
-
-                    if (Common.isConnectedToInternet(getBaseContext())) {
-
-                        final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
-                        mDialog.setMessage("Please waiting...");
-                        mDialog.show();
-
-                        if (edtPhone.length() == 10 && edtName.length() >= 2 && edtPassword.length() > 0 && edtEmail.length() > 0) {
-
-                            table_user.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                                        mDialog.dismiss();
-                                        Toast.makeText(SignUp.this, "已經註冊!!", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        mDialog.dismiss();
-                                        //建構方法User
-                                        User user = new User(
-                                                edtName.getText().toString(),
-                                                edtPassword.getText().toString(),
-                                                edtEmail.getText().toString()
-                                        );
-
-                                        table_user.child(edtPhone.getText().toString()).setValue(user); //user底下的child
-                                        Toast.makeText(SignUp.this, "註冊成功!!", Toast.LENGTH_SHORT).show();
-                                        /* finish();*/
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-                        } else if (edtPhone.length() < 10) {
-                            Toast.makeText(SignUp.this, "電話輸入錯誤", Toast.LENGTH_SHORT).show();
-                            mDialog.dismiss();
-                        } else if (edtName.getText().toString().isEmpty() || edtName.length() < 2) {
-                            Toast.makeText(SignUp.this, "請輸入姓名(2字以上)", Toast.LENGTH_SHORT).show();
-                            mDialog.dismiss();
-                        } else if (edtPassword.getText().toString().isEmpty()) {
-                            Toast.makeText(SignUp.this, "請輸入密碼", Toast.LENGTH_SHORT).show();
-                            mDialog.dismiss();
-                        } else if (edtEmail.getText().toString().isEmpty()) {
-                            Toast.makeText(SignUp.this, "請輸入Email", Toast.LENGTH_SHORT).show();
-                            mDialog.dismiss();
-                        }
-                    }
-                    else{
-                        Toast.makeText(SignUp.this,"請確認網路連線",Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            });
     }
 }

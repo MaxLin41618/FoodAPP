@@ -16,7 +16,6 @@ import com.example.leo.ww2.Model.Rating;
 import com.example.leo.ww2.ViewHolder.ShowCommentViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -26,80 +25,39 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ShowComment extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-
     FirebaseDatabase database;
-    DatabaseReference ratingTbl;
+    DatabaseReference refRating;
 
+    RecyclerView recyclerView;
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    FirebaseRecyclerAdapter<Rating,ShowCommentViewHolder> adapter;
+    FirebaseRecyclerAdapter<Rating, ShowCommentViewHolder> adapter;
 
-    String foodId="";
-    //Ctrl+O
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if(adapter != null)
-            adapter.stopListening();
-    }
+    String foodId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //font
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-        .setDefaultFontPath("fonts/of.otf")
-        .setFontAttrId(R.attr.fontPath)
-        .build());
+                .setDefaultFontPath("fonts/of.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build());
         setContentView(R.layout.activity_show_comment);
-
 
         //FireBase
         database = FirebaseDatabase.getInstance();
-        ratingTbl = database.getReference("Rating");
-        //recyclerView
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerComment);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //Swipe Layout
-        mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_Layout);
+        refRating = database.getReference("Rating");
+
+        initView();
+
+        //refresh
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(getIntent() != null)
-                        foodId = getIntent().getStringExtra(Common.INTENT_FOOD_ID);
 
-                    if(!foodId.isEmpty() && foodId != null){
-                        //Query request
-                        Query query = ratingTbl.orderByChild("foodId").equalTo(foodId);
-
-                        FirebaseRecyclerOptions<Rating> options = new FirebaseRecyclerOptions.Builder<Rating>().setQuery(query,Rating.class).build();
-
-                        adapter = new FirebaseRecyclerAdapter<Rating, ShowCommentViewHolder>(options) {
-                            @Override
-                            protected void onBindViewHolder(@NonNull ShowCommentViewHolder holder, int position, @NonNull Rating model) {
-                                holder.ratingBar.setRating(Float.parseFloat(model.getRateValue()));
-                                holder.txtComment.setText(model.getComment());
-                                holder.txtUserName.setText(model.getUserName());
-                            }
-
-                            @NonNull
-                            @Override
-                            public ShowCommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                                View view = inflater.inflate(R.layout.show_comment_layout,parent,false);
-                                return new ShowCommentViewHolder(view);
-                            }
-                        };
-
-                        loadComment(foodId);
-                }
+                loadComment(foodId);
             }
         });
 
@@ -109,39 +67,67 @@ public class ShowComment extends AppCompatActivity {
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(true);
 
-                if(getIntent() != null)
-                    foodId = getIntent().getStringExtra(Common.INTENT_FOOD_ID);
-                if(!foodId.isEmpty() && foodId != null){
-                    //Query request
-                    Query query = ratingTbl.orderByChild("foodId").equalTo(foodId);
-
-                    FirebaseRecyclerOptions<Rating> options = new FirebaseRecyclerOptions.Builder<Rating>().setQuery(query,Rating.class).build();
-                    adapter = new FirebaseRecyclerAdapter<Rating, ShowCommentViewHolder>(options) {
-                        @Override
-                        protected void onBindViewHolder(@NonNull ShowCommentViewHolder holder, int position, @NonNull Rating model) {
-                            holder.ratingBar.setRating(Float.parseFloat(model.getRateValue()));
-                            holder.txtComment.setText(model.getComment());
-                            holder.txtUserName.setText(model.getUserName());
-                        }
-
-                        @NonNull
-                        @Override
-                        public ShowCommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                            View view = inflater.inflate(R.layout.show_comment_layout,parent,false);
-                            return new ShowCommentViewHolder(view);
-                        }
-                    };
-
-                    loadComment(foodId);
-                }
+                loadComment(foodId);
             }
         });
     }
 
+    private void initView() {
+        //recyclerView
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerComment);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+        //Swipe Layout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_Layout);
+    }
+
     private void loadComment(String foodId) {
-        adapter.startListening();
-        recyclerView.setAdapter(adapter);
-        mSwipeRefreshLayout.setRefreshing(false);
+
+        if (getIntent() != null)
+            foodId = getIntent().getStringExtra(Common.INTENT_FOOD_ID);
+
+        if (!foodId.isEmpty() && foodId != null) {
+            //Query request
+            Query query = refRating.orderByChild("foodId").equalTo(foodId);
+
+            FirebaseRecyclerOptions<Rating> options = new FirebaseRecyclerOptions.Builder<Rating>().setQuery(query, Rating.class).build();
+
+            adapter = new FirebaseRecyclerAdapter<Rating, ShowCommentViewHolder>(options) {
+                @Override
+                protected void onBindViewHolder(@NonNull ShowCommentViewHolder holder, int position, @NonNull Rating model) {
+                    holder.ratingBar.setRating(Float.parseFloat(model.getRateValue()));
+                    holder.txtComment.setText(model.getComment());
+                    holder.txtUserName.setText(model.getUserName());
+                }
+
+                @NonNull
+                @Override
+                public ShowCommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                    View view = inflater.inflate(R.layout.show_comment_layout, parent, false);
+                    return new ShowCommentViewHolder(view);
+                }
+            };
+
+            adapter.startListening();
+            recyclerView.setAdapter(adapter);
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    //Ctrl+O, font
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (adapter != null)
+            adapter.stopListening();
     }
 }

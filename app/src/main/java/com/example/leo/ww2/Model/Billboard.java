@@ -57,4 +57,5 @@ public class Billboard {
     public void setBillboard_comment(String billboard_comment) {
         this.billboard_comment = billboard_comment;
     }
+
 }

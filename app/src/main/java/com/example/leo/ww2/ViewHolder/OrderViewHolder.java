@@ -12,7 +12,7 @@ import org.w3c.dom.Text;
 
 public class OrderViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView txtOrderId,txtOrderStatus,txtOrderPhone,txtOrderAddress,txtOrderDate;
+    public TextView txtOrderId, txtOrderStatus, txtOrderPhone, txtOrderAddress, txtOrderDate;
     public Button btnDetail;
 
     private ItemClickListener itemClickListener;
@@ -20,11 +20,11 @@ public class OrderViewHolder extends RecyclerView.ViewHolder {
     public OrderViewHolder(View itemView) {
         super(itemView);
 
-        txtOrderAddress = (TextView)itemView.findViewById(R.id.order_address);
-        txtOrderId = (TextView)itemView.findViewById(R.id.order_id);
-        txtOrderPhone = (TextView)itemView.findViewById(R.id.order_phone);
-        txtOrderStatus = (TextView)itemView.findViewById(R.id.order_status);
-        txtOrderDate = (TextView)itemView.findViewById(R.id.order_date);
+        txtOrderId = (TextView) itemView.findViewById(R.id.order_id);
+        txtOrderStatus = (TextView) itemView.findViewById(R.id.order_status);
+        txtOrderDate = (TextView) itemView.findViewById(R.id.order_date);
+        txtOrderPhone = (TextView) itemView.findViewById(R.id.order_phone);
+        txtOrderAddress = (TextView) itemView.findViewById(R.id.order_address);
 
         btnDetail = (Button) itemView.findViewById(R.id.btnDetail);
     }
