@@ -1,7 +1,7 @@
 package com.example.leo.ww2.Model;
 
 import java.util.List;
-
+//HTTP responseCode
 public class MyResponse {
     private long multicast_id;
     private int success;

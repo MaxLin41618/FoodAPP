@@ -45,6 +45,7 @@ import retrofit2.Response;
 
 public class Cart extends AppCompatActivity {
 
+    private static final String TAG = "Cart";
     RecyclerView recyclerView;
 
     TextView txtTotalPrice;
@@ -178,22 +179,25 @@ public class Cart extends AppCompatActivity {
 
                     Token serverToken = postSnapShot.getValue(Token.class);
                     //Create raw payload to send
-                    Notification notification = new Notification("HEY", "You have new Order" + order_number);
+                    Notification notification = new Notification("To Server", "有新訂單" + order_number);
                     Message message = new Message(serverToken.getToken(), notification);
 
                     mService.sendNotification(message)
                             .enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                    //Only run when get result
+                                    // run when success HTTP:200
                                     if (response.code() == 200) {
                                         if (response.body().getSuccess() == 1) {
+                                            Log.d(TAG, "ResponseCode = " + response.code());
                                             Toast.makeText(Cart.this, "感謝您的訂購", Toast.LENGTH_SHORT).show();
                                             finish();
                                         } else {
+                                            Log.d(TAG, "response.body() = " + response.body().toString());
                                             Toast.makeText(Cart.this, "感謝您的訂購 但Notification失敗", Toast.LENGTH_SHORT).show();
-                                            finish();
                                         }
+                                    } else {
+                                        Log.e(TAG, "ResponseCode = " + response.code());
                                     }
                                 }
 

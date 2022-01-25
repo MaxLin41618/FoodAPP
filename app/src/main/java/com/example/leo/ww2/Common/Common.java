@@ -16,6 +16,7 @@ public class Common {
     public static User currentUser;
     public static Request currentRequest; //OrderStatus to OrderDetail
 
+    //https://fcm.googleapis.com/fcm/send
     private static final String BASE_URL = "https://fcm.googleapis.com/";
 
     public static final String PHONE_TEXT = "userPhone";

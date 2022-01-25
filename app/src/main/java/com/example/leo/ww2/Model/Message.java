@@ -1,23 +1,23 @@
 package com.example.leo.ww2.Model;
 
 public class Message {
-    private String token;
+    private String to; //must set it 'to' due to http, json issues
     private Notification notification;
 
     public Message() {
     }
 
-    public Message(String token, Notification notification) {
-        this.token = token;
+    public Message(String to, Notification notification) {
+        this.to = to;
         this.notification = notification;
     }
 
-    public String getToken() {
-        return token;
+    public String getTo() {
+        return to;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public Notification getNotification() {
