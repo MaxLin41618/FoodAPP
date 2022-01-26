@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent homeIntent = new Intent(MainActivity.this, Home.class);
                         Common.currentUser = user;
                         startActivity(homeIntent);
+                        mDialog.dismiss();
                         finish();
                     } else {
                         Toast.makeText(MainActivity.this, "密碼錯誤!!", Toast.LENGTH_SHORT).show();

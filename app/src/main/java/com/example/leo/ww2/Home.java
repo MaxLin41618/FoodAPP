@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -80,6 +82,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     Button btnUpload, btnSelect;
     ImageView imageView;
     FloatingActionButton fabCart, fabBillBoard;
+
+    //for back press
+    private boolean doubleBackToExitPressedOnce;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,7 +269,20 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                //Exit app
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            Toast mExitToast = new Toast(this);
+            mExitToast.makeText(this, "再按一次返回鍵離開", Toast.LENGTH_SHORT).show();
+            mExitToast.cancel();
+            mHandler.postDelayed(mRunnable, 2000);
         }
     }
 
@@ -417,4 +436,19 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         super.onStop();
         adapter.stopListening();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacks(mRunnable);
+        }
+    }
+
+    private final Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doubleBackToExitPressedOnce = false;
+        }
+    };
 }
