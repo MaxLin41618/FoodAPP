@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -60,11 +64,14 @@ public class Cart extends AppCompatActivity {
 
     APIService mService;
 
+    Database SQLdb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        SQLdb = new Database(this);
         //initService Retrofit
         mService = Common.getFCMService();
         //FireBase
@@ -103,10 +110,10 @@ public class Cart extends AppCompatActivity {
 
     private void loadListFood() {
 
-        orderList = new Database(this).getCarts();
+        orderList = SQLdb.getCarts();
         adapter = new CartAdapter(orderList, this);
-        adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
         int total = 0;
         for (Order order : orderList) {
@@ -120,7 +127,7 @@ public class Cart extends AppCompatActivity {
         txtTotalPrice.setText(numFormat.format(total));
     }
 
-    //final step to submit requset
+    //final step to submit request
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
         alertDialog.setTitle("還差一步!");
@@ -231,12 +238,42 @@ public class Cart extends AppCompatActivity {
         //remove item form orderList by position. 移除單項
         orderList.remove(position);
         //delete all from table. 刪除table所有資料
-        new Database(this).cleanCart();
+        SQLdb.cleanCart();
         //put the rest data from orderList to table. list剩餘的重新加回table
         for (Order item : orderList)
-            new Database(this).addToCart(item);
+            SQLdb.addToCart(item);
         //refresh
         loadListFood();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_delete_all_cart,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_delete_all:
+
+                new XPopup.Builder(this).asConfirm("Clean All", "Are you sure?",
+                        new OnConfirmListener() {
+                            @Override
+                            public void onConfirm() {
+                                Log.d(TAG, "onConfirm: delete all cart");
+                                SQLdb.cleanCart();
+                                loadListFood();
+                            }
+                        })
+                        .show();
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
