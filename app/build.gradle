@@ -31,7 +31,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     //Material SearchBar
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.2'
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.3'
     // numberButton ex. - 5 +
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
     //provides images with letter/text , 圖片裡有text,可以客製化圖片外觀

@@ -28,6 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class FoodList extends AppCompatActivity {
         //load suggestion from FireBase, put food_name to suggestList, maxCount 10
         loadSuggest();
         searchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
-        searchBar.setLastSuggestions(suggestList);
+        //searchBar.setLastSuggestions(suggestList);
         //suggestList 建議欄
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
@@ -89,10 +90,13 @@ public class FoodList extends AppCompatActivity {
                 //When user type text and it contains in suggestList, will change the suggest list
                 List<String> suggests = new ArrayList<>();
                 for (String search : suggestList) {
-                    if (search.toLowerCase().contains(searchBar.getText().toLowerCase()))
+                    if (search.toLowerCase().contains(searchBar.getText().toLowerCase())) {
                         suggests.add(search);
+                        Log.d(TAG, "onTextChanged: " + suggests);
+                        Log.d(TAG, "onTextChanged: " + searchBar.getText());
+                    }
                 }
-                searchBar.setLastSuggestions(suggests); //change the suggest list
+                //searchBar.setLastSuggestions(suggests); //change the suggest list
             }
 
             @Override
@@ -120,6 +124,23 @@ public class FoodList extends AppCompatActivity {
             @Override
             public void onButtonClicked(int buttonCode) {
 
+            }
+        });
+
+        searchBar.setSuggestionsClickListener(new SuggestionsAdapter.OnItemViewClickListener() {
+            @Override
+            public void OnItemClickListener(int position, View v) {
+                searchBar.setText(searchBar.getLastSuggestions().get(position).toString());
+                startSearch(searchBar.getLastSuggestions().get(position).toString());
+                searchBar.hideSuggestionsList();
+            }
+
+            @Override
+            public void OnItemDeleteListener(int position, View v) {
+                ArrayList newList = new ArrayList<>(searchBar.getLastSuggestions());
+                newList.remove(position);
+
+                searchBar.updateLastSuggestions(newList);
             }
         });
     }
